@@ -1,0 +1,21 @@
+# Frontend
+node_modules/
+dist/
+
+# Variáveis de ambiente
+.env*
+!.env.example
+
+# Ambiente Virtual
+.venv/
+
+# Cache de Python
+__pycache__/
+
+# Cache das ferramentas
+.ruff_cache/
+.pytest_cache/
+
+# Editor
+.vscode/
+
