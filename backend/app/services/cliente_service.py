@@ -69,7 +69,7 @@ def atualizar(cliente_id: UUID, dados: ClienteUpdate) -> ClienteDB:
         
     
 
-def deletar(cliente_id: UUID) -> None:
+def desativar(cliente_id: UUID) -> None:
     cliente = obter(cliente_id)
-    cliente_desativado = cliente.model_copy(update = {"ative": False})
+    cliente_desativado = cliente.model_copy(update={"ativo": False})
     _cliente[cliente_id] = cliente_desativado
