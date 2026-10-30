@@ -1,5 +1,7 @@
 from collections.abc import Generator
+from typing import Annotated
 
+from fastapi import Depends
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
@@ -11,3 +13,6 @@ engine = create_engine(settings.database_url, echo=True)
 def get_db() -> Generator[Session]:
     with Session(engine) as session:
         yield session
+
+
+SessionDep = Annotated[Session, Depends(get_db)]
