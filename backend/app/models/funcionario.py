@@ -9,10 +9,10 @@ from app.models.base import Base
 
 
 class Nivel(StrEnum):
-    ESTAGIARIO = "ESTAGIÁRIO"
-    JUNIOR = "JÚNIOR"
+    ESTAGIARIO = "ESTAGIARIO"
+    JUNIOR = "JUNIOR"
     PLENO = "PLENO"
-    SENIOR = "SÊNIOR"
+    SENIOR = "SENIOR"
 
 
 class Funcionario(Base):
