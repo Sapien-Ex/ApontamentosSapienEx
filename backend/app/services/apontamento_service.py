@@ -16,7 +16,7 @@ def criar(session: Session, dados: ApontamentoCreate) -> Apontamento:
 
     if not funcionario.ativo:
         raise HTTPException(
-            status_code=422, detail="O funcionário informado está inativo"
+            status_code=422, detail="O funcionário informado está inativo."
         )
 
     consulta = select(Apontamento).where(
@@ -68,3 +68,10 @@ def listar(
         consulta = consulta.where(Apontamento.data <= fim)
 
     return list(session.scalars(consulta).all())
+
+
+def obter(session: Session, apontamento_id: UUID) -> Apontamento:
+    apontamento = session.get(Apontamento, apontamento_id)
+    if apontamento is None:
+        raise HTTPException(status_code=404, detail="Apontamento não encontrado.")
+    return apontamento
