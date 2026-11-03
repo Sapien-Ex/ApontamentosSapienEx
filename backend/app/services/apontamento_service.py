@@ -1,3 +1,6 @@
+from datetime import date
+from uuid import UUID
+
 from fastapi import HTTPException
 from sqlalchemy import and_, select
 from sqlalchemy.exc import IntegrityError
@@ -37,7 +40,31 @@ def criar(session: Session, dados: ApontamentoCreate) -> Apontamento:
         session.commit()
     except IntegrityError:
         session.rollback()
-        raise HTTPException(status_code=409, detail="Já existe um apontamento")
+        raise HTTPException(
+            status_code=409,
+            detail="Já existe um apontamento para este funcionário nesta data.",
+        )
 
     session.refresh(apontamento)
     return apontamento
+
+
+def listar(
+    session: Session,
+    funcionario_id: UUID | None = None,
+    inicio: date | None = None,
+    fim: date | None = None,
+) -> list[Apontamento]:
+
+    consulta = select(Apontamento).order_by(Apontamento.data)
+
+    if funcionario_id is not None:
+        consulta = consulta.where(Apontamento.funcionario_id == funcionario_id)
+
+    if inicio is not None:
+        consulta = consulta.where(Apontamento.data >= inicio)
+
+    if fim is not None:
+        consulta = consulta.where(Apontamento.data <= fim)
+
+    return list(session.scalars(consulta).all())
